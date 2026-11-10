@@ -1,0 +1,45 @@
+{
+  "name": "macdata/social-post",
+  "description": "Social-Media-Posting für Shopware 6.7: Blogartikel und Produkte automatisch oder per Klick auf Facebook, Instagram, Pinterest, X, Mastodon und Telegram veröffentlichen",
+  "type": "shopware-platform-plugin",
+  "version": "1.0.1",
+  "require": {
+    "shopware/core": "~6.7.0"
+  },
+  "extra": {
+    "shopware-plugin-class": "SocialPost\\SocialPost",
+    "label": {
+      "de-DE": "Social-Media-Posting",
+      "en-GB": "Social Media Posting"
+    },
+    "description": {
+      "de-DE": "Neue Blogartikel und Produkte automatisch oder per Klick auf Facebook, Instagram, Pinterest, X, Mastodon und Telegram veröffentlichen, mit Vorschau, Planung und Testmodus",
+      "en-GB": "Publish new blog articles and products to Facebook, Instagram, Pinterest, X, Mastodon and Telegram automatically or with one click, with preview, scheduling and test mode"
+    },
+    "plugin-icon": "src/Resources/config/plugin.png"
+  },
+  "autoload": {
+    "psr-4": {
+      "SocialPost\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Markus Czarnetzki",
+      "homepage": "https://macdata.de"
+    }
+  ],
+  "homepage": "https://macdata.de",
+  "license": "MIT",
+  "keywords": [
+    "shopware",
+    "shopware6",
+    "shopware-plugin",
+    "social-media",
+    "facebook",
+    "instagram",
+    "pinterest",
+    "mastodon",
+    "telegram"
+  ]
+}

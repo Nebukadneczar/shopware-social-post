@@ -1,0 +1,18 @@
+{
+  "base": "/",
+  "entryPoints": {
+    "social-post": {
+      "css": [],
+      "dev": false,
+      "js": [
+        "/bundles/socialpost/administration/assets/social-post.js?v=1.0.1"
+      ],
+      "legacy": false,
+      "preload": []
+    }
+  },
+  "legacy": false,
+  "metadatas": [],
+  "version": ["7.0.0", "1.0.0"],
+  "viteServer": null
+}

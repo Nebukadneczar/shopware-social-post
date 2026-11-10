@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- Netzwerke -->
+        <service id="SocialPost\Network\Facebook">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+        <service id="SocialPost\Network\Instagram">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+        <service id="SocialPost\Network\Pinterest">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+        <service id="SocialPost\Network\Telegram">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+        <service id="SocialPost\Network\Mastodon">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+        <service id="SocialPost\Network\XNetwork">
+            <argument type="service" id="http_client"/>
+            <tag name="social_post.network"/>
+        </service>
+
+        <service id="SocialPost\Network\NetworkRegistry">
+            <argument type="tagged_iterator" tag="social_post.network"/>
+        </service>
+
+        <!-- Dienste -->
+        <service id="SocialPost\Service\SettingsService">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="SocialPost\Network\NetworkRegistry"/>
+        </service>
+
+        <service id="SocialPost\Service\PostRepository">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service id="SocialPost\Service\SourceService">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="landing_page.repository"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="SocialPost\Service\SettingsService"/>
+        </service>
+
+        <service id="SocialPost\Service\PostService">
+            <argument type="service" id="SocialPost\Service\PostRepository"/>
+            <argument type="service" id="SocialPost\Service\SettingsService"/>
+            <argument type="service" id="SocialPost\Network\NetworkRegistry"/>
+            <argument type="service" id="SocialPost\Service\SourceService"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+        <!-- Ereignisse -->
+        <service id="SocialPost\Subscriber\ContentSubscriber">
+            <argument type="service" id="SocialPost\Service\SettingsService"/>
+            <argument type="service" id="SocialPost\Service\PostService"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="logger"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!-- Geplante Aufgabe -->
+        <service id="SocialPost\Task\SendDueTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+        <service id="SocialPost\Task\SendDueTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="SocialPost\Service\PostService"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <!-- Befehl -->
+        <service id="SocialPost\Command\SendCommand">
+            <argument type="service" id="SocialPost\Service\PostService"/>
+            <tag name="console.command"/>
+        </service>
+
+        <!-- Admin-Schnittstelle -->
+        <service id="SocialPost\Controller\AdminApiController" public="true">
+            <argument type="service" id="SocialPost\Service\PostRepository"/>
+            <argument type="service" id="SocialPost\Service\PostService"/>
+            <argument type="service" id="SocialPost\Service\SettingsService"/>
+            <argument type="service" id="SocialPost\Service\SourceService"/>
+            <argument type="service" id="SocialPost\Network\NetworkRegistry"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+    </services>
+</container>
